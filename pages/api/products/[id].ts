@@ -20,7 +20,7 @@ async function getHandler(req: NextApiRequest, res: NextApiResponse) {
     } catch (error) {
         res.status(500).send({
             ok: false,
-            error
+            message: 'product not found'
         })
     }
 }

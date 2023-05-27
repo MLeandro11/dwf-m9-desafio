@@ -1,5 +1,5 @@
 import { airtableBase } from 'lib/airtable';
-import { productsIndex } from 'lib/algolia'
+import { Product, ProductData } from 'models/product';
 
 export async function syncProductsInDatabase() {
     airtableBase('products').select({
@@ -13,11 +13,9 @@ export async function syncProductsInDatabase() {
                 ...r.fields,
             }
         })
-        //console.log(objects);
         try {
-            const { objectIDs } = await productsIndex.saveObjects(objects)
+            const objectIDs = await Product.add(objects as Array<ProductData>)
             console.log(objectIDs);
-
         } catch (error) {
             console.log(error);
             throw 'Error al sincronizar en productos'
@@ -31,16 +29,13 @@ export async function syncProductsInDatabase() {
     });
 }
 export async function searchProducts(query: string, limit: number, offset: number) {
-    const data = await productsIndex.search(query, {
-        hitsPerPage: limit,
-        page: offset > 1 ? Math.floor(offset / limit) : 0,
-        attributesToHighlight: []
-    })
+    const data = await Product.search(query, limit, offset)
     return data
 }
 export async function getProductById(id: string) {
     try {
-        return await productsIndex.getObject(id)
+
+        return (await Product.getById(id)).data
     } catch (e) {
         console.error(e)
         return null

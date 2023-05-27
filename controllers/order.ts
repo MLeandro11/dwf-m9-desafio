@@ -12,9 +12,9 @@ export async function createOrder(userId: string, productId: string, aditionalIn
         userId,
         product: {
             id: productId,
-            name: product["name"],
-            description: product['description'],
-            price: product["unit_cost"]
+            name: product.name,
+            description: product.description,
+            price: product.unit_cost
         },
         status: 'pending',
         createdAt: new Date(),
@@ -23,14 +23,14 @@ export async function createOrder(userId: string, productId: string, aditionalIn
     const preference = {
         items: [
             {
-                id: productId,
-                title: product["name"],
+                id: product.objectID,
+                title: product.name,
                 // description: product["description"],
-                picture_url: product["images"][0].url,
-                category_id: product["type"],
+                picture_url: product.images[0].url,
+                category_id: product.type,
                 quantity: 1,
                 currency_id: "ARS",
-                unit_price: product["unit_cost"]
+                unit_price: product.unit_cost
             }
         ],
         back_urls: {
