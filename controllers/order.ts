@@ -39,7 +39,7 @@ export async function createOrder(userId: string, productId: string, aditionalIn
             failure: ''//---> url de pagina donde mostraria que el pago fallo
         },
         external_reference: order.id,
-        notification_url: 'https://webhook.site/9efd9f05-bc02-43d2-b462-e920288ffa1b',//---> aca va la url de la api deployada
+        notification_url: process.env.URL_WEB_HOOKS,//---> aca va la url de la api deployada
     }
     try {
         const newPreference = await createPreference(preference)
