@@ -1,4 +1,4 @@
-import { authMiddleware, schemaQueryMiddleware } from 'lib/middlewares'
+import { authMiddleware, handlerCORS, schemaQueryMiddleware } from 'lib/middlewares'
 import methods from 'micro-method-router'
 import { createOrder } from 'controllers/order'
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -28,4 +28,4 @@ const handler = methods({
     post: authMiddleware(postHandler)
 })
 
-export default schemaQueryMiddleware(querySchema, handler)
+export default handlerCORS(schemaQueryMiddleware(querySchema, handler))

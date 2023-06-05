@@ -1,6 +1,6 @@
 import methods from 'micro-method-router'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { authMiddleware } from 'lib/middlewares'
+import { authMiddleware, handlerCORS } from 'lib/middlewares'
 import { updateUser } from 'controllers/users'
 
 
@@ -21,4 +21,4 @@ const handler = methods({
     }
 })
 
-export default authMiddleware(handler)
+export default handlerCORS(authMiddleware(handler))

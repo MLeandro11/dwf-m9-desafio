@@ -1,7 +1,7 @@
 import methods from 'micro-method-router'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { sendCode } from "controllers/auth";
-import { schemaBodyMiddleware } from 'lib/middlewares'
+import { schemaBodyMiddleware, handlerCORS } from 'lib/middlewares'
 import { object, string } from "yup"
 
 let bodySchema = object({
@@ -20,4 +20,4 @@ const handler = methods({
     }
 })
 
-export default schemaBodyMiddleware(bodySchema, handler)
+export default handlerCORS(schemaBodyMiddleware(bodySchema, handler))
