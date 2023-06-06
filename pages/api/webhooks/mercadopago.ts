@@ -1,7 +1,7 @@
 import methods from 'micro-method-router'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { updateOrderStatus } from 'controllers/order'
-import { handlerCORS } from 'lib/middlewares'
+
 
 async function handlerWebhook(req: NextApiRequest, res: NextApiResponse) {
     const { id, topic } = req.query
@@ -18,4 +18,4 @@ const handler = methods({
     POST: handlerWebhook
 })
 
-export default handlerCORS(handler);
+export default handler

@@ -2,7 +2,6 @@ import methods from 'micro-method-router'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getOffsetAndLimitFromReq } from 'lib/requests'
 import { searchProducts } from 'controllers/products'
-import { handlerCORS } from 'lib/middlewares'
 
 async function handlerSearch(req: NextApiRequest, res: NextApiResponse) {
     const { limit, offset } = getOffsetAndLimitFromReq(req)
@@ -24,4 +23,4 @@ async function handlerSearch(req: NextApiRequest, res: NextApiResponse) {
 const handler = methods({
     get: handlerSearch
 })
-export default handlerCORS(handler);
+export default handler

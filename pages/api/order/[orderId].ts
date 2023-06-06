@@ -1,7 +1,7 @@
 import methods from 'micro-method-router'
 import { getOrderById } from 'controllers/order'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { handlerCORS, schemaQueryMiddleware } from 'lib/middlewares'
+import { schemaQueryMiddleware } from 'lib/middlewares'
 import { object, string } from "yup"
 
 let querySchema = object({
@@ -23,4 +23,4 @@ async function getHandler(req: NextApiRequest, res: NextApiResponse) {
 const handler = methods({
     get: getHandler
 })
-export default handlerCORS(schemaQueryMiddleware(querySchema, handler))
+export default schemaQueryMiddleware(querySchema, handler)
