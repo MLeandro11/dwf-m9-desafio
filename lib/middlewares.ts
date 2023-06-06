@@ -51,12 +51,16 @@ export function schemaBodyMiddleware(schema, callback) {
 
 export function handlerCORS(callback) {
     return async function (req: NextApiRequest, res: NextApiResponse) {
-        await NextCors(req, res, {
-            // Options
-            methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-            origin: "*",
-            optionsSuccessStatus: 200,
-        });
-        callback(req, res);
+        try {
+            await NextCors(req, res, {
+                // Options
+                methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+                origin: "*",
+                optionsSuccessStatus: 200,
+            });
+            callback(req, res);
+        } catch (error) {
+            console.log(error)
+        }
     };
 }
