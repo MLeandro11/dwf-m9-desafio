@@ -13,6 +13,7 @@
     "@sendgrid/mail": "^7.7.0",
     "airtable": "^0.12.1",
     "algoliasearch": "^4.17.0",
+    "cors": "^2.8.5",
     "date-fns": "^2.30.0",
     "firebase-admin": "^11.8.0",
     "jsonwebtoken": "^9.0.0",
@@ -25,6 +26,7 @@
     "yup": "^1.2.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.13",
     "@types/mercadopago": "^1.5.8",
     "@types/node": "18.16.3",
     "@types/react": "18.2.0",
