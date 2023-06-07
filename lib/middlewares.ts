@@ -5,7 +5,6 @@ import parseToken from 'parse-bearer-token'
 export function authMiddleware(callback) {
     return function (req: NextApiRequest, res: NextApiResponse) {
         const token = parseToken(req)
-        console.log(token);
         if (!token) {
             res.status(401).send({
                 message: 'not token'
