@@ -5,6 +5,7 @@ import { getUserById, updateUser } from 'controllers/users'
 
 
 async function getHandler(req: NextApiRequest, res: NextApiResponse, token) {
+    console.log("token desde el endpoint", token);
     const user = await getUserById(token.userId)
     res.status(200).send(user.data)
 }

@@ -1,12 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { decodeToken } from "lib/jwt"
 import parseToken from 'parse-bearer-token'
-import NextCors from "nextjs-cors";
-import Cors from 'cors'
 
 export function authMiddleware(callback) {
     return function (req: NextApiRequest, res: NextApiResponse) {
         const token = parseToken(req)
+        console.log(token);
         if (!token) {
             res.status(401).send({
                 message: 'not token'
@@ -50,21 +49,4 @@ export function schemaBodyMiddleware(schema, callback) {
     }
 }
 
-// const cors = Cors({
-//     methods: ['POST', 'GET', 'HEAD', 'PUT', 'DELETE', 'PATCH'],
-// })
-
-// export function handlerCORS(callback) {
-//     return function (req: NextApiRequest, res: NextApiResponse) {
-//         return new Promise((resolve, reject) => {
-//             cors(req, res, (result: any) => {
-//                 if (result instanceof Error) return reject(result)
-//                 callback(req, res)
-//                 return resolve(result)
-//             })
-//         })
-
-
-//     };
-// }
 
