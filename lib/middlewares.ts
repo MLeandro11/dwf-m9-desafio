@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { decodeToken } from "lib/jwt"
 import parseToken from 'parse-bearer-token'
-import NextCors from "nextjs-cors";
 
 export function authMiddleware(callback) {
     return function (req: NextApiRequest, res: NextApiResponse) {
@@ -49,13 +48,4 @@ export function schemaBodyMiddleware(schema, callback) {
     }
 }
 
-export function handlerCORS(callback) {
-    return async function (req: NextApiRequest, res: NextApiResponse) {
-        await NextCors(req, res, {
-            methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-            origin: "*",
-            optionsSuccessStatus: 200,
-        });
-        callback(req, res);
-    };
-}
+
