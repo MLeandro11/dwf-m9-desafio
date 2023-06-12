@@ -13,7 +13,6 @@
     "@sendgrid/mail": "^7.7.0",
     "airtable": "^0.12.1",
     "algoliasearch": "^4.17.0",
-    "cors": "^2.8.5",
     "date-fns": "^2.30.0",
     "firebase-admin": "^11.8.0",
     "jsonwebtoken": "^9.0.0",

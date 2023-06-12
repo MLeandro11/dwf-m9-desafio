@@ -1,6 +1,6 @@
 import methods from 'micro-method-router'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import corsMiddleware, { authMiddleware } from 'lib/middlewares'
+import { authMiddleware } from 'lib/middlewares'
 import { getUserById, updateUser } from 'controllers/users'
 
 
@@ -26,10 +26,5 @@ const handler = methods({
     get: getHandler,
     patch: patchHandler
 })
-//
 
-const corsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-    await corsMiddleware(req, res, authMiddleware(handler));
-};
-
-export default corsHandler;
+export default authMiddleware(handler)

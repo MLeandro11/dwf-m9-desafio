@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { decodeToken } from "lib/jwt"
 import parseToken from 'parse-bearer-token'
-import Cors from "cors";
 
 export function authMiddleware(callback) {
     return function (req: NextApiRequest, res: NextApiResponse) {
@@ -49,16 +48,4 @@ export function schemaBodyMiddleware(schema, callback) {
     }
 }
 
-const cors = Cors({
-    methods: ["GET", "POST", "PATCH", "DELETE"],
-});
 
-export default function corsMiddleware(req, res, cb) {
-    return new Promise((resolve, reject) => {
-        cors(req, res, (result) => {
-            if (result instanceof Error) return reject(result);
-            cb(req, res);
-            return resolve(result);
-        });
-    });
-}
