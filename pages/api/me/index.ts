@@ -5,8 +5,12 @@ import { getUserById, updateUser } from 'controllers/users'
 
 
 async function getHandler(req: NextApiRequest, res: NextApiResponse, token) {
-    const user = await getUserById(token.userId)
-    res.status(200).send(user.data)
+    try {
+        const user = await getUserById(token.userId)
+        res.status(200).send(user.data)
+    } catch (error) {
+        res.status(500).send(error)
+    }
 }
 async function patchHandler(req: NextApiRequest, res: NextApiResponse, token) {
     if (req.body.email) {
