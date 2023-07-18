@@ -16,7 +16,7 @@ async function handlerWebhook(req: NextApiRequest, res: NextApiResponse) {
     })
 }
 const handler = methods({
-    POST: handlerWebhook
+    post: handlerWebhook
 })
 
 export default handler
