@@ -34,7 +34,7 @@ export async function createOrder(userId: string, productId: string, aditionalIn
             }
         ],
         back_urls: {
-            success: '',//---> url de pagina si todo saldria bien
+            success: process.env.PAGE_SUCCESS,//---> url de pagina si todo saldria bien
             pending: '',//---> url de pagina donde mostraria que el pago esta pendiente
             failure: ''//---> url de pagina donde mostraria que el pago fallo
         },
@@ -62,6 +62,7 @@ export async function getOrderById(orderId: string) {
 
 export async function updateOrderStatus(mpId: String) {
     const orderMp = await getMerchantOrder(mpId)
+    console.log(orderMp);
 
     if (orderMp.order_status === 'paid') {
         const orderId = orderMp.external_reference
