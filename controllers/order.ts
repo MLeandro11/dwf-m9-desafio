@@ -26,7 +26,7 @@ export async function createOrder(userId: string, productId: string, additionalI
             {
                 id: product.objectID,
                 title: product.name,
-                description: product["description"],
+                // description: product["description"],
                 picture_url: product.images[0].url,
                 category_id: product.type,
                 quantity: 1,
