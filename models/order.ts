@@ -7,10 +7,11 @@ export interface OrderData {
         name: string;
         description: string;
         price: number;
+        image: string
     };
     status: string;
     createdAt: Date;
-    aditionalInfo: any;
+    additionalInfo: any;
     externalOrder?: any;
 }
 

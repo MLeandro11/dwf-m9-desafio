@@ -4,7 +4,7 @@ import { getProductById } from 'controllers/products'
 import { getUserById } from './users'
 import { sendEmail } from 'lib/sendgrid'
 
-export async function createOrder(userId: string, productId: string, aditionalInfo) {
+export async function createOrder(userId: string, productId: string, additionalInfo) {
     const product = await getProductById(productId)
     if (!product) throw 'Product not found'
 
@@ -14,18 +14,19 @@ export async function createOrder(userId: string, productId: string, aditionalIn
             id: productId,
             name: product.name,
             description: product.description,
-            price: product.unit_cost
+            price: product.unit_cost,
+            image: product.images[0].url
         },
         status: 'pending',
         createdAt: new Date(),
-        aditionalInfo
+        additionalInfo
     })
     const preference = {
         items: [
             {
                 id: product.objectID,
                 title: product.name,
-                // description: product["description"],
+                description: product["description"],
                 picture_url: product.images[0].url,
                 category_id: product.type,
                 quantity: 1,
@@ -34,9 +35,9 @@ export async function createOrder(userId: string, productId: string, aditionalIn
             }
         ],
         back_urls: {
-            success: process.env.PAGE_SUCCESS,//---> url de pagina si todo saldria bien
-            pending: '',//---> url de pagina donde mostraria que el pago esta pendiente
-            failure: ''//---> url de pagina donde mostraria que el pago fallo
+            success: process.env.PAGE_SUCCESS,//---> url de pagina si todo saldría bien
+            pending: '',//---> url de pagina donde mostraría que el pago esta pendiente
+            failure: ''//---> url de pagina donde mostraría que el pago fallo
         },
         external_reference: order.id,
         notification_url: process.env.URL_WEB_HOOKS,//---> aca va la url de la api deployada
@@ -61,25 +62,37 @@ export async function getOrderById(orderId: string) {
 }
 
 export async function updateOrderStatus(mpId: String) {
-    const orderMp = await getMerchantOrder(mpId)
-    console.log(orderMp);
-
-    if (orderMp.order_status === 'paid') {
+    try {
+        const orderMp = await getMerchantOrder(mpId)
         const orderId = orderMp.external_reference
         const orderDb = await getOrderById(orderId)
+        console.log(orderMp);
 
-        orderDb.data.status = 'paid'
-        orderDb.data.externalOrder = orderMp
-        await orderDb.push()
+        if (orderMp.order_status === "payment_required") {
+            orderDb.data.status = 'pending'
+            orderDb.data.externalOrder = orderMp
+            await orderDb.push()
+        }
 
-        await sendEmailToBuyer(orderDb.data)
+        if (orderMp.order_status === 'paid') {
+
+            orderDb.data.status = 'paid'
+            orderDb.data.externalOrder = orderMp
+            await orderDb.push()
+
+            await sendEmailToBuyer(orderDb.data)
+        }
+
+    } catch (error) {
+        console.log("error del catch", error);
     }
     return true
+
 }
 
 async function sendEmailToBuyer(order: OrderData) {
     const buyer = await getUserById(order.userId)
-    const product = order.product
+    const { name, description, price } = order.product
     return await sendEmail({
         to: buyer.data.email,
         from: process.env.EMAIL_FROM,
@@ -89,9 +102,9 @@ async function sendEmailToBuyer(order: OrderData) {
                 <p>Tu pedido ha sido pagado con éxito</p>
                 <strong>Detalles del pedido</strong>
                 <ul>
-                    <li>Nombre: ${product.name}</li>
-                    <li>Descripcion: ${product.description}</li>
-                    <li>Precio: ${product.price}</li>
+                    <li>Nombre: ${name}</li>
+                    <li>Descripción: ${description}</li>
+                    <li>Precio: ${price}</li>
                 </ul>
             `,
     })

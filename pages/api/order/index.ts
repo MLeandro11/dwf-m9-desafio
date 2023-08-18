@@ -12,10 +12,10 @@ let querySchema = object({
 async function postHandler(req: NextApiRequest, res: NextApiResponse, token) {
     const userId = token.userId
     const productId = req.query.productId as string
-    const dataAditionalOrder = req.body
+    const dataAdditional = req.body
 
     try {
-        const order = await createOrder(userId, productId, dataAditionalOrder)
+        const order = await createOrder(userId, productId, dataAdditional)
         res.status(200).send(order)
     } catch (e) {
         res.status(500).send({
