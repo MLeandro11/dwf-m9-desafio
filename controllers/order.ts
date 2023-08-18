@@ -22,6 +22,12 @@ export async function createOrder(userId: string, productId: string, additionalI
         additionalInfo
     })
     const preference = {
+        payer: {
+            name: additionalInfo.name,
+            surname: additionalInfo.surname,
+            email: additionalInfo.email
+        },
+
         items: [
             {
                 id: product.objectID,
@@ -69,7 +75,7 @@ export async function updateOrderStatus(mpId: String) {
         console.log(orderMp);
 
         if (orderMp.order_status === "payment_required") {
-            orderDb.data.status = 'pending'
+            orderDb.data.status = 'payment_required'
             orderDb.data.externalOrder = orderMp
             await orderDb.push()
         }
